@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flourish API: Base visualization with overrides example</title>
+    <script src="https://cdn.flourish.rocks/flourish-live-v4.5.0.min.js"></script>
+</head>
+
+<body>
+    <div id="chart"></div>
+    <script>
+        fetch("data.json")
+            .then(response => response.json())
+            .then(json => {
+
+                var small_multiples = new Flourish.Live({
+                    container: "#chart",
+                    api_key: "************ YOUR API KEY GOES HERE! ************",
+
+                    // Fetch base visualization
+                    base_visualisation_id: "7639875", // Make sure this visualization is published in the app
+
+                    // Override data, bindings & any other required settings
+                    data: {
+                        data: json
+                    },
+                    bindings: {
+                        data: {
+                            label: 'Year',
+                            value: Object.keys(json[0]).slice(1)
+                        }
+                    },
+
+                    state: {
+                        layout: {
+                            title: "CO2 emissions (metric tons per capita)",
+                            source_name: "World Bank",
+                            source_url: "https://data.worldbank.org/indicator/EN.ATM.CO2E.PC"
+                        },
+
+                        x: {
+                            tick_label_angle: 0,
+                            tick_mode: "custom",
+                            tick_custom: "1960\n2000"
+                        },
+
+                        series_filter: ['United Kingdom', 'United States', 'China', 'Australia', 'Japan', 'Finland', 'Luxembourg', 'Bahrain']
+                    }
+                });
+
+            });
+
+
+    </script>
+</body>
+
+</html>
